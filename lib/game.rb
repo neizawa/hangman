@@ -22,13 +22,7 @@ class Game
       @guess += 1
     end
 
-    if guessed_letters.any?('_')
-      puts "\nYou are out of guesses. You lost."
-    else
-      puts "\nCongratulations! You won!"
-    end
-
-    puts "The secret word was '#{secret_word}'."
+    conclude
   end
 
   def select_random_word
@@ -54,5 +48,15 @@ class Game
     letters.each_with_index do |letter, index|
       letter == input && guessed_letters[index] = letter
     end
+  end
+
+  def conclude
+    if guessed_letters.any?('_')
+      puts "\nYou are out of guesses. You lost."
+    else
+      puts "\nCongratulations! You won!"
+    end
+
+    puts "The secret word was '#{secret_word}'."
   end
 end
