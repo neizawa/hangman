@@ -13,7 +13,7 @@ class Game
     @guessed_letters = guessed_letters
 
     @guess = 0
-    @max_guess = secret_word.length + 2
+    @max_guess = secret_word.length
   end
 
   def play
@@ -73,19 +73,18 @@ class Game
   end
 
   def save_game
-    file_count = Dir.glob('saves/*.sv').length
+    file_count = Dir.glob('saves/*.json').length
     filename = "#{(file_count + 1).to_s.rjust(3, '0')}.json"
 
     File.open("saves/#{filename}", 'w') do |file|
       JSON.dump({
                   secret_word: @secret_word,
-                  guessed_letters: @guessed_letters,
-                  guess: @guess,
-                  used_letters: @used_letters
+                  used_letters: @used_letters,
+                  guessed_letters: @guessed_letters
                 }, file)
     end
 
-    puts "Game saved as '#{filename}'. Thank you for playing!"
+    puts "Game saved in '#{filename}'. Thank you for playing!"
     exit
   end
 
