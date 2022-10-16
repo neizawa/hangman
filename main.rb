@@ -18,9 +18,9 @@ def start_game
 end
 
 def load_game
-  filename = "saves/#{gets.chomp}.sv"
+  filename = "saves/#{gets.chomp}.json"
 
-  if File.file?(filename)
+  if File.exist?(filename)
     Game.load_game(filename)
   else
     print 'No such file. Try again: '

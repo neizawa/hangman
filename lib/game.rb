@@ -33,7 +33,7 @@ class Game
   def display_info
     puts "\n#{guessed_letters.join(' ')}"
     puts "\nYou have #{max_guess - guess} guesses left."
-    puts "Used letters: #{used_letters.join(', ').upcase}"
+    puts "Incorrect letters: #{(used_letters - guessed_letters).join(', ').upcase}"
     print 'Type a letter: '
   end
 
@@ -47,7 +47,7 @@ class Game
     if letter == 'save'
       save_game
     elsif used_letters.include?(letter)
-      print 'Chosen letter is already used. Try another letter: '
+      print 'Already used. Try another letter: '
       input_letter
     elsif letter.match?(/^[a-z]{1}$/)
       used_letters << letter
@@ -76,7 +76,7 @@ class Game
 
   def save_game
     file_count = Dir.glob('saves/*.sv').length
-    filename = "#{(file_count + 1).to_s.rjust(3, '0')}.sv"
+    filename = "#{(file_count + 1).to_s.rjust(3, '0')}.json"
 
     File.open("saves/#{filename}", 'w') do |file|
       JSON.dump({
