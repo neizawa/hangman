@@ -1,21 +1,19 @@
 DICTIONARY = File.read('google-10000-english-no-swears.txt').split
 
 class Game
-  attr_accessor :secret_word, :guessed_letters, :used_letters, :letters, :max_guess, :guess
+  attr_accessor :secret_word, :guessed_letters, :used_letters, :max_guess, :guess
 
   def initialize(
     secret_word = select_random_word,
     used_letters = [],
-    guessed_letters = Array.new(secret_word.length, '_'),
-    guess = 0
+    guessed_letters = Array.new(secret_word.length, '_')
   )
     @secret_word = secret_word
     @used_letters = used_letters
     @guessed_letters = guessed_letters
-    @guess = guess
 
-    @letters = secret_word.split('')
-    @max_guess = secret_word.length + 5
+    @guess = 0
+    @max_guess = secret_word.length + 2
   end
 
   def play
@@ -24,15 +22,15 @@ class Game
     until guess == max_guess || guessed_letters.none?('_')
       display_info
       check_letters(input_letter)
-      @guess += 1
-    end
 
+      @guess = (used_letters - guessed_letters).length
+    end
     conclude
   end
 
   def display_info
     puts "\n#{guessed_letters.join(' ')}"
-    puts "\nYou have #{max_guess - guess} guesses left."
+    puts "\nYou have #{max_guess - guess} incorrect guesses left."
     puts "Incorrect letters: #{(used_letters - guessed_letters).join(', ').upcase}"
     print 'Type a letter: '
   end
@@ -59,7 +57,7 @@ class Game
   end
 
   def check_letters(input)
-    letters.each_with_index do |letter, index|
+    secret_word.split('').each_with_index do |letter, index|
       letter == input && guessed_letters[index] = letter
     end
   end
@@ -97,7 +95,6 @@ class Game
       data['secret_word'],
       data['used_letters'],
       data['guessed_letters'],
-      data['guess']
     ).play
   end
 end
